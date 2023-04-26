@@ -1,0 +1,104 @@
+<style>
+  :root {
+    --verde: #006b62;
+    --branco: #fff;
+    --preto: #000;
+    --esp1: 5px;
+    --esp2: 10px;
+    --esp3: 15px;
+    --esp4: 20px;
+    --font-cabecalho: "Bodoni Moda", "serif";
+    --font-corpo: "Roboto", sans-serif;
+  }
+  body {
+    background-color: var(--branco);
+    color: var(--preto);
+    font-family: var(--font-corpo);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-cabecalho);
+    color: var(--verde);
+  }
+  .loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: var(--branco);
+  }
+  .hidden {
+    display: none;
+    visibility: hidden;
+  }
+  fieldset {
+    border: 2px solid var(--verde);
+    margin: var(--esp4) 0;
+  }
+  form .campo {
+    margin: var(--esp2) 0;
+    display: flex;
+    flex-direction: column;
+  }
+  form .campo .descricao {
+    font-size: 13px;
+    margin-top: var(--esp1);
+  }
+  form label {
+    display: block;
+    margin-bottom: var(--esp1);
+  }
+  form label,
+  form legend {
+    color: var(--verde);
+    font-weight: bold;
+  }
+  form input,
+  form select,
+  form textarea {
+    padding: var(--esp1) var(--esp2);
+    border-radius: var(--esp1);
+    border: 1px solid var(--verde);
+    width: auto;
+  }
+  form input[type="submit"] {
+    width: 100%;
+  }
+  form textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
+  form .array {
+    display: grid;
+    grid-gap: var(--esp2);
+  }
+  form .array .data {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    border: var(--verde) 2px dotted;
+    padding: var(--esp1);
+    grid-gap: var(--esp2);
+  }
+  form .array .campo {
+    margin: 0;
+  }
+  form .adiciona-data {
+    margin-top: var(--esp2);
+  }
+
+  .status {
+    height: 50px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .status .criando,
+  .status .erro,
+  .status .sucesso {
+    height: 100%;
+    width: 100%;
+  }
+</style>

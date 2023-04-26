@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <?!= HTML.include('core/HTML/css') ?>
+  </head>
+
+  <body>
+    <?!= HTML.include('core/HTML/dom') ?>
+
+    <?!= HTML.include('core/HTML/app/script-form') ?>
+
+    <?!= HTML.include('core/HTML/loading') ?>
+
+    <form id="certificado" onsubmit="handleSubmit(this)"></form>
+
+    <?!= HTML.include('core/HTML/app/script') ?>
+  </body>
+</html>

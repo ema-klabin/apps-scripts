@@ -1,0 +1,72 @@
+<div class="status">
+    <div class="inProgress hidden"></div>
+    <div class="done hidden"></div>
+    <div class="error hidden"></div>
+</div>
+
+<script>
+    class Status {
+        inProgress;
+        done;
+        error;
+        message;
+
+        constructor(name, status, message) {
+            if (name && status) {
+                this.set(name, status, message);
+            } else {
+                this.inProgress = false;
+                this.done = false;
+                this.error = false;
+            }
+
+        }
+
+        set(name, status, message) {
+            this.cleanSet(name, status, message);
+            this.falsifyOthersThan(name);
+            this.modifyDom(name, status);
+        }
+
+        cleanSet(name, status, message = null) {
+            this[name] = status;
+            if (message) {
+                this.message = message;
+            }
+        }
+
+        falsifyOthersThan(propertyName) {
+            const others = Object.getOwnPropertyNames(this).filter((p) => {
+                if ( p !== propertyName && p !== 'message' ) {
+                    return p;
+                }
+            });
+            others.forEach((name) => {
+                this.cleanSet(name, false);
+            });
+        }
+
+        modifyDom(name, status) {
+            const statusList = document.querySelector('div.status');
+            let selectedStatus;
+            for ( let i = 0; i < statusList.length; i++ ) {
+                console.log(statusList[i]);
+            }
+            console.log(status.children);   
+        }
+    }
+</script>
+<script>
+    window.addEventListener('load', () => {
+        const newStatus = new Status();
+
+        newStatus.set('inProgress', true);
+        console.log('status', newStatus);
+
+        newStatus.set('done', true);
+        console.log('status', newStatus);
+
+        newStatus.set('error', true);
+        console.log('status', newStatus);
+    });
+</script>

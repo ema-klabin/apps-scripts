@@ -1,0 +1,80 @@
+<script>
+  const formulario = document.querySelector("form#formulario");
+  const fieldSet = document.createElement("fieldset");
+
+  const legenda = document.createElement("legend");
+  legenda.innerHTML = "E-mail";
+  fieldSet.appendChild(legenda);
+
+  const fields = [];
+
+  const assunto = Dom.createField({
+    type: "text",
+    label: "Assunto",
+    atts: {
+      name: "Email::assunto",
+    },
+  });
+  fields.push(assunto);
+
+  const cc = Dom.createField({
+    type: "text",
+    label: "CC",
+    atts: {
+      name: "Email::cc",
+    },
+  });
+  fields.push(cc);
+
+  const cco = Dom.createField({
+    type: "text",
+    label: "CCO",
+    atts: {
+      name: "Email::cco",
+    },
+  });
+  fields.push(cco);
+
+  const mensagem = Dom.createField({
+    type: "textarea",
+    label: "Mensagem",
+    atts: {
+      name: "Email::msg",
+      placeholder: "Digite a mensagem...",
+    },
+    descricao:
+      "Utilize as tags <i><b>cert.nome</i></b>, <i><b>cert.dataEmissao</i></b>, <i><b>cert.atividade</i></b>, <i><b>cert.data</i></b>, <i><b>cert.duracao</i></b>, <i><b>cert.ministrante</i></b>, para substituir automaticamente por valores configurados na planilha.",
+    children: `Olá
+
+Segue certificado para 
+cert.atividade
+realizada no dia cert.data
+com duração de cert.duracao
+
+Acompanhe nossa programação https:\/\/emaklabin.org.br
+
+Até logo!`,
+  });
+  fields.push(mensagem);
+
+  fields.forEach((field) => {
+    fieldSet.appendChild(field);
+  });
+
+  const submit = Dom.submitButton({
+    className: "enviar",
+    value: "Enviar e-mail",
+  });
+  fieldSet.appendChild(submit);
+
+  formulario.appendChild(fieldSet);
+
+  const sucesso = (msg) => {
+    console.log("sucesso", msg);
+  };
+
+  const enviaEmail = (form) => {
+    console.log(form);
+    google.script.run.withSuccessHandler(sucesso).enviaCertificados(form);
+  };
+</script>

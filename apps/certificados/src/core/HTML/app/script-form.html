@@ -1,0 +1,141 @@
+<script>
+  //   console.log("script-form.html");
+  window.addEventListener("load", () => {
+    const KEY = "AIzaSyDqsoJxyfi8O7OKMrfInuShmVhx6T0lqIs";
+    const pickerApiLoaded = false;
+
+    /**
+     * Monta o formulário de acordo com o esquema de metadados recebido do servidor
+     */
+    const sucesso = (certificado) => {
+      const form = document.querySelector("form#certificado");
+
+      const Certificado = document.createElement("fieldset");
+
+      /**
+       * Certificado
+       */
+      if ("undefined" !== typeof certificado.certificado) {
+        const Legenda = LegendaFieldset("Certificado");
+        Certificado.appendChild(Legenda);
+
+        certificado.certificado.map((meta) => {
+          const Input = Dom.createField(meta);
+          Certificado.appendChild(Input);
+        });
+      }
+
+      /**
+       * Atividade
+       */
+      if (
+        "undefined" !== typeof certificado.atividade &&
+        null !== certificado.atividade
+      ) {
+        const Atividade = document.createElement("fieldset");
+
+        const LegendaAtividade = LegendaFieldset("Atividade");
+        Atividade.appendChild(LegendaAtividade);
+
+        certificado.atividade.map((meta) => {
+          const Input = Dom.createField(meta);
+          Atividade.appendChild(Input);
+        });
+
+        Certificado.appendChild(Atividade);
+      }
+
+      /**
+       * Ministrantes
+       */
+      if (
+        "undefined" !== typeof certificado.ministrantes &&
+        null !== certificado.ministrantes
+      ) {
+        const Ministrantes = FildsetMinistrantes(certificado.ministrantes);
+        Certificado.appendChild(Ministrantes);
+      }
+
+      /**
+       * Botão Adicionar ministrante
+       */
+      Certificado.appendChild(BotaoAdicionarMinistrante());
+
+      form.appendChild(Certificado);
+
+      form.appendChild(
+        Dom.submitButton({
+          value: "Configurar",
+        })
+      );
+    };
+
+    /**
+     * Fieldset Ministrantes
+     */
+    const FildsetMinistrantes = (ministrantes) => {
+      const Ministrantes = document.createElement("div");
+      Ministrantes.classList.add("ministrantes");
+
+      const mins = ministrantes.map((min, i) => {
+        const Ministrante = document.createElement("fieldset");
+        Ministrante.id = "ministrante_" + i;
+
+        const LegendaMinistrante = LegendaFieldset("Ministrante");
+        Ministrante.appendChild(LegendaMinistrante);
+
+        const Remove = BotaoRemoverMinistrante(Ministrante);
+        Ministrante.appendChild(Remove);
+
+        min.map((meta) => {
+          const Input = Dom.createField(meta);
+          Ministrante.appendChild(Input);
+        });
+        Ministrantes.appendChild(Ministrante);
+      });
+
+      return Ministrantes;
+    };
+
+    /**
+     * Retorna <legend> para <fieldset>
+     * @param text string
+     */
+    const LegendaFieldset = (text) => {
+      const Legenda = document.createElement("legend");
+      Legenda.innerHTML = text.toString();
+      return Legenda;
+    };
+
+    /**
+     * Retorna <button> para remover <el> passado como parâmentro
+     * @param el Node
+     */
+    const BotaoRemoverMinistrante = (el) => {
+      const Remove = Dom.createRemoveButton();
+      const button = Remove.children[0];
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        remove(el);
+      });
+      return Remove;
+    };
+
+    /**
+     * Retorna <button> para adicionar novo ministrante
+     */
+    const BotaoAdicionarMinistrante = () => {
+      const AddMinistrante = document.createElement("button");
+      AddMinistrante.classList.add("adiciona-ministrante");
+      AddMinistrante.innerHTML = "Adicionar ministrante";
+      return AddMinistrante;
+    };
+
+    /**
+     * Chama função getCertificado no server-side
+     */
+    const certificados = google.script.run
+      .withSuccessHandler(sucesso)
+      .getCertificado();
+  });
+</script>

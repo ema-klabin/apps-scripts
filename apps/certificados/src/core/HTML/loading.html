@@ -1,0 +1,19 @@
+<div class="loading hidden">Carregando...</div>
+<script>
+  /**
+   * Controla o estado visual da div de loading e do formulário.
+   */
+  const switchVisible = () => {
+    const loading = document.querySelector("div.loading");
+    console.log(loading);
+    if (!loading.classList.contains("hidden")) {
+      loading.classList.add("hidden");
+      return;
+    }
+
+    if (loading.classList.contains("hidden")) {
+      loading.classList.remove("hidden");
+      return;
+    }
+  };
+</script>

@@ -1,0 +1,409 @@
+<script>
+  class Dom {
+    static domDebug = false;
+
+    static createField(options, values = null) {
+      const schema = {
+        type: "text", // date, select, ???
+        label: "",
+        atts: {
+          name: "",
+          placeholder: "",
+          value: "",
+        },
+        options: [], //se select
+      };
+
+      if ("undefined" === typeof options.type) {
+        return "No type defined. Please pass a type parameter to object.";
+      }
+
+      const Wraper = document.createElement("div");
+      Wraper.classList.add("campo");
+
+      let Field;
+
+      /**
+       * Input fields
+       */
+      const input = ["text", "date"];
+      if (input.includes(options.type)) {
+        Field = this.createInput(options);
+      }
+
+      /**
+       * Button field
+       */
+      if ("button" === options.type) {
+        Field = this.createButton(options);
+      }
+
+      /**
+       * Select field
+       */
+      if ("select" === options.type) {
+        Field = this.createSelect(options);
+      }
+
+      /**
+       * Textarea field
+       */
+      if ("textarea" === options.type) {
+        Field = this.createTextarea(options);
+      }
+
+      if ("array" === options.type) {
+        Field = this.createArrayFields(options);
+      }
+
+      /**
+       * Picker field
+       */
+      if ("picker" === options.type) {
+        Field = this.createPicker(options);
+      }
+
+      if (null !== values) {
+        this.setValue(field, values);
+      }
+
+      /**
+       * Lógica da label
+       *
+       * Verifica se o tipo de campo consta no array de tags que substiuem a label por innerHTML.
+       */
+      const noLabel = ["button", "div", "span", "picker"];
+      if (
+        "undefined" !== typeof options.label &&
+        !noLabel.includes(options.type)
+      ) {
+        const Label = document.createElement("label");
+        Label.innerHTML = options.label;
+        Wraper.appendChild(Label);
+      }
+      if (noLabel.includes(options.type) && "picker" !== options.type) {
+        Field.innerHTML = options.label;
+      }
+
+      Wraper.appendChild(Field);
+
+      /**
+       * Descrição do campo
+       */
+      if ("undefined" !== typeof options.descricao) {
+        const Descricao = document.createElement("span");
+        Descricao.classList.add("descricao");
+        Descricao.innerHTML = options.descricao;
+        Wraper.appendChild(Descricao);
+      }
+
+      if (this.domDebug) {
+        console.log("createField", Wraper);
+      }
+
+      return Wraper;
+    }
+
+    /**
+     * Cria <textarea>
+     */
+    static createTextarea(options) {
+      const Textarea = document.createElement("textarea");
+      if ("undefined" !== options.atts) {
+        this.setAtts(Textarea, options.atts);
+      }
+      if ("undefined" !== options.children) {
+        Textarea.innerHTML = options.children;
+      }
+
+      if (this.domDebug) {
+        console.log("createTextarea", Textarea);
+      }
+
+      return Textarea;
+    }
+
+    /**
+     * Cria array of <tag>
+     */
+    static createArrayFields(options) {
+      const Campo = document.createElement("div");
+      Campo.classList.add(options.name ? options.name : "");
+      const ArrayFields = document.createElement("div");
+      ArrayFields.classList.add("array");
+
+      const fields = options.items.forEach((element) => {
+        const DataRemove = this.createDataRemoveField(element);
+        ArrayFields.appendChild(DataRemove);
+      });
+
+      const Adicionar = this.createButton({
+        label: "Adicionar data",
+        atts: {
+          class: "adiciona-data",
+        },
+      });
+
+      if (this.domDebug) {
+        console.log("createArrayFields", options, ArrayFields);
+      }
+
+      Campo.appendChild(ArrayFields);
+      Campo.appendChild(Adicionar);
+
+      return Campo;
+    }
+
+    static createDataRemoveField(options) {
+      const Fields = document.createElement("div");
+      Fields.classList.add("data");
+      const Field = this.createField(options);
+      const Remove = this.createRemoveButton();
+      Fields.appendChild(Field);
+      Fields.appendChild(Remove);
+      Remove.addEventListener("click", (e) => {
+        e.preventDefault();
+        remove(Fields);
+      });
+      return Fields;
+    }
+
+    static createMinistranteFieldset(options) {
+      const Ministrante = document.createElement("fieldset");
+      const LegendaMinistrante = document.createElement("legend");
+
+      LegendaMinistrante.innerHTML = "Ministrante";
+      Ministrante.appendChild(LegendaMinistrante);
+      const Remove = this.createRemoveButton();
+      Remove.addEventListener("click", (e) => {
+        e.preventDefault();
+        remove(Ministrante);
+      });
+      Ministrante.appendChild(Remove);
+
+      options.map((option) => {
+        const Input = this.createField(option);
+        Ministrante.appendChild(Input);
+      });
+
+      return Ministrante;
+    }
+
+    /**
+     * Cria <input>
+     */
+    static createInput(options) {
+      const Input = document.createElement("input");
+      Input.type = options.type;
+      if ("undefined" !== options.atts) {
+        this.setAtts(Input, options.atts);
+      }
+
+      if (this.domDebug) {
+        console.log("createInput", Input);
+      }
+
+      return Input;
+    }
+
+    /**
+     * Cria <select>
+     */
+    static createSelect(options) {
+      const Select = document.createElement("select");
+
+      if ("undefined" !== options.atts) {
+        this.setAtts(Select, options.atts, options.options);
+      }
+      console.log(options);
+      if ("undefined" !== options.options) {
+        const optDefault = document.createElement("option");
+        optDefault.innerHTML = "--selecione--";
+        Select.appendChild(optDefault);
+
+        Object.keys(options.options).map((key) => {
+          const Option = document.createElement("option");
+          Option.value = key;
+          Option.innerHTML = options.options[key].label;
+          if (key === options.atts.value) {
+            Option.selected = true;
+          }
+          Select.appendChild(Option);
+        });
+      }
+
+      if (this.domDebug) {
+        console.log("createSelect", Select);
+      }
+
+      return Select;
+    }
+
+    /**
+     * Cria <input type="submit">
+     */
+    static submitButton(atts) {
+      const Submit = document.createElement("input");
+      Submit.type = "submit";
+
+      this.setAtts(Submit, atts);
+
+      if (this.domDebug) {
+        console.log("submitButton", Submit);
+      }
+
+      return Submit;
+    }
+
+    /**
+     * Cria <button>
+     */
+    static createButton(options) {
+      const Button = document.createElement("button");
+
+      if (options.label) {
+        Button.innerHTML = options.label;
+      }
+      if (options.atts) {
+        this.setAtts(Button, options.atts);
+      }
+      if (this.domDebug) {
+        console.log("button", Button);
+      }
+
+      return Button;
+    }
+
+    /**
+     * Cria <input type="hidden">
+     */
+    static createHiddenInput(options) {
+      const Input = document.createElement("input");
+      Input.type = "hidden";
+
+      if ("undefined" !== options.atts) {
+        this.setAtts(Input, options.atts);
+      }
+
+      if (this.domDebug) {
+        console.log("createHiddenInput", Input);
+      }
+
+      return Input;
+    }
+
+    /**
+     * Cria <img >
+     */
+    static createImg(options) {
+      const Img = document.createElement("img");
+
+      if ("undefined" !== options.atts) {
+        this.setAtts(Img, options.atts);
+      }
+
+      if (this.domDebug) {
+        console.log("createImg", Img);
+      }
+
+      return Img;
+    }
+
+    /**
+     * Cria <a>
+     */
+    static createA(options) {
+      const A = document.createElement("a");
+
+      if (options.label) {
+        A.innerHTML = options.label;
+      }
+
+      if (options.atts) {
+        this.setAtts(A, options.atts);
+      }
+
+      if (this.domDebug) {
+        console.log("createA", A);
+      }
+
+      return A;
+    }
+
+    /**
+     * createPicker <button class="picker">
+     */
+    static createPicker(options) {
+      const Picker = document.createElement("button");
+      const A = this.createA(options);
+
+      Picker.classList.add("picker");
+      Picker.innerHTML = options.label;
+
+      const Wraper = document.createElement("div");
+      Wraper.appendChild(A);
+
+      const fields = {
+        url: this.createHiddenInput({
+          atts: {
+            classList: "url",
+          },
+        }),
+        id: this.createHiddenInput({
+          atts: {
+            classList: "id",
+          },
+        }),
+      };
+
+      Object.values(fields).map((field) => {
+        Wraper.appendChild(field);
+      });
+
+      Wraper.appendChild(Picker);
+      Wraper.classList.add("picker-wraper");
+
+      if (this.domDebug) {
+        console.log("createPicker", Wraper);
+      }
+
+      return Wraper;
+    }
+
+    /**
+     * createRemoveButton <span class="remoce"><button>x</button></span>
+     */
+    static createRemoveButton() {
+      const Remove = document.createElement("span");
+      const options = {
+        label: "x",
+      };
+      const button = this.createButton(options);
+
+      Remove.classList.add("remove");
+
+      Remove.appendChild(button);
+
+      if (this.domDebug) {
+        console.log("createRemoveButton", Remove);
+      }
+
+      return Remove;
+    }
+
+    static randomName() {
+      return [...Array(7)].map(() => Math.random().toString(36)[2]).join("");
+    }
+
+    static setAtts(field, atts) {
+      const at = Object.keys(atts).map((key) => {
+        field.setAttribute(key, atts[key]);
+        return field;
+      });
+    }
+
+    static randomMetaName(prefix, name) {
+      return prefix + "::" + name + "-" + this.randomName();
+    }
+  }
+</script>

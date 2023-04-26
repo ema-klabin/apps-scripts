@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <?!= HTML.include('core/HTML/css') ?>
+  </head>
+
+  <body>
+    <?!= HTML.include('core/HTML/dom') ?>
+
+    <?!= HTML.menu() ?>
+
+    <div class="clients">
+      <p>Adicione clientes nas colunas nome e e-mail</p>
+    </div>
+
+    <button onclick="google.script.run.createCertificates()">
+      Criar certificados
+    </button>
+  </body>
+</html>

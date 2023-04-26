@@ -1,0 +1,75 @@
+<script>
+  function handleSubmit(formObject) {
+    console.log("handleSubmit");
+    switchVisible();
+    google.script.run.withSuccessHandler(sucesso).createApp(formObject);
+  }
+
+  function sucesso(log) {
+    google.script.run.pagClients();
+    switchVisible();
+    console.log("sucesso", log);
+  }
+
+  const remove = (el) => {
+    el.remove();
+  };
+
+  document.addEventListener("click", (e) => {
+    const element = e.target;
+
+    if ("BUTTON" === element.tagName && element.classList.contains("picker")) {
+      e.preventDefault();
+      google.script.run.pickerModal();
+    }
+
+    if (
+      "BUTTON" === element.tagName &&
+      element.classList.contains("adiciona-ministrante")
+    ) {
+      e.preventDefault();
+      const Ministrantes = document.querySelector("div.ministrantes");
+
+      const random = Dom.randomName();
+
+      const meta = [
+        {
+          type: "text",
+          label: "Nome",
+          atts: {
+            name: "Ministrante::nome-" + random,
+          },
+        },
+        {
+          type: "text",
+          label: "Email",
+          atts: {
+            name: "Ministrante::email-" + random,
+          },
+        },
+      ];
+
+      const Ministrante = Dom.createMinistranteFieldset(meta);
+
+      Ministrantes.appendChild(Ministrante);
+      Ministrante.id = "ministrante-" + random;
+    }
+
+    if (
+      "BUTTON" === element.tagName &&
+      element.classList.contains("adiciona-data")
+    ) {
+      e.preventDefault();
+      const Datas = document.querySelector(".datas .array");
+      const meta = {
+        type: "date",
+        label: "Data",
+        atts: {
+          name: Dom.randomMetaName("Atividade", "data"),
+        },
+      };
+      const Data = Dom.createDataRemoveField(meta);
+      Datas.appendChild(Data);
+    }
+  });
+</script>

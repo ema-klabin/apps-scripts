@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <?!= Core.HTML.include('core/HTML/css') ?>
+</head>
+
+<body>
+    <?!= Core.HTML.include('core/HTML/loading') ?>
+    <script type="text/javascript">
+        let pickerApiLoaded = false;
+
+        function onApiLoad() {
+            gapi.load('picker', {
+                'callback': function () {
+                    pickerApiLoaded = true;
+                }
+            });
+            google.script.run.withSuccessHandler(createPicker)
+                .withFailureHandler(showError).getPickerConfig();
+        }
+
+        function createPicker(config) {
+            if (pickerApiLoaded && config.token) {
+                const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
+                    .setMimeTypes(config.mime)
+                    .setParent(config.parent)
+                    .setEnableDrives(true)
+                    .setIncludeFolders(true)
+                    .setMode(google.picker.DocsViewMode.LIST)
+
+                const picker = new google.picker.PickerBuilder()
+                    .addView(docsView)
+                    .enableFeature(google.picker.Feature.NAV_HIDDEN)
+                    .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
+                    .hideTitleBar()
+                    .setSize(config.dialogDimensions.width, config.dialogDimensions.height)
+                    .setOAuthToken(config.token)
+                    .setCallback(pickerCallback)
+                    .setOrigin(config.origin)
+                    .build();
+
+                picker.setVisible(true);
+                const loading = document.querySelector('div.loading');
+                if (!loading.classList.contains('hidden')) {
+                    loading.classList.add('hidden');
+                }
+            } else {
+                showError('Unable to load the file picker.');
+            }
+        }
+
+        /**
+         * A callback function that extracts the chosen document's metadata from the
+         * response object. For details on the response object, see
+         * https://developers.google.com/picker/docs/result
+         *
+         * @param {object} data The response object.
+         */
+        function pickerCallback(data) {
+            const action = data[google.picker.Response.ACTION];
+            if (action == google.picker.Action.PICKED) {
+                const doc = data[google.picker.Response.DOCUMENTS][0];
+                const id = doc[google.picker.Document.ID];
+                const url = doc[google.picker.Document.URL];
+                
+                const image = {
+                    url: url,
+                    id: id,
+                }
+
+                google.script.run.withSuccessHandler(displayImage)
+                    .withFailureHandler(showError).saveSelectedImage(image);
+
+            } else if (action == google.picker.Action.CANCEL) {
+                google.script.host.close();
+            }
+        }
+
+        /**
+         * @bug Ainda precisa ser desenvolvida
+         */
+        function displayImage(response) {
+            google.script.host.close();
+            console.log('ola mundo from displayImage');
+            console.log(response);
+            const link = document.querySelector( 'div.picker-wraper > a' );
+                console.log(link);
+        }
+
+        function showError(message) {
+            console.error('error:', message);
+        }
+    </script>
+
+    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+</body>
+
+</html>
