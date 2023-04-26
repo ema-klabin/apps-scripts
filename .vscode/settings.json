@@ -1,4 +1,7 @@
 {
   "files.autoSave": "onWindowChange",
+  "files.exclude": {
+    "**/.git": false
+  },
   "editor.tabSize": 2
 }
