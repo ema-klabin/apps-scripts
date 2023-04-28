@@ -8,14 +8,23 @@
   <body>
     <?!= HTML.include('core/HTML/dom') ?>
 
+    <?!= HTML.include('core/HTML/loading') ?>
+
     <?!= HTML.menu() ?>
 
     <div class="clients">
-      <p>Adicione clientes nas colunas nome e e-mail</p>
+      <p>
+        Adicione clientes nas colunas nome e e-mail. As outras colunas serão
+        preenchidas automaticamente.
+      </p>
     </div>
 
-    <button onclick="google.script.run.createCertificates()">
-      Criar certificados
-    </button>
+    <button onclick="criaCertificado()">Criar certificados</button>
+    <script>
+      function criaCertificado() {
+        switchVisible();
+        google.script.run.createCertificates();
+      }
+    </script>
   </body>
 </html>

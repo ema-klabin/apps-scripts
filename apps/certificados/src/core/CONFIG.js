@@ -16,7 +16,7 @@ const CONFIG = {
     rangeStart: 12,
   },
   Participantes: {
-    range: "D2:E",
+    range: "D2:I",
   },
   Slide: {
     templateUrl:

@@ -18,8 +18,8 @@
         return "No type defined. Please pass a type parameter to object.";
       }
 
-      const Wraper = document.createElement("div");
-      Wraper.classList.add("campo");
+      const Wrapper = document.createElement("div");
+      Wrapper.classList.add("campo");
 
       let Field;
 
@@ -79,13 +79,13 @@
       ) {
         const Label = document.createElement("label");
         Label.innerHTML = options.label;
-        Wraper.appendChild(Label);
+        Wrapper.appendChild(Label);
       }
       if (noLabel.includes(options.type) && "picker" !== options.type) {
         Field.innerHTML = options.label;
       }
 
-      Wraper.appendChild(Field);
+      Wrapper.appendChild(Field);
 
       /**
        * Descrição do campo
@@ -94,14 +94,14 @@
         const Descricao = document.createElement("span");
         Descricao.classList.add("descricao");
         Descricao.innerHTML = options.descricao;
-        Wraper.appendChild(Descricao);
+        Wrapper.appendChild(Descricao);
       }
 
       if (this.domDebug) {
-        console.log("createField", Wraper);
+        console.log("createField", Wrapper);
       }
 
-      return Wraper;
+      return Wrapper;
     }
 
     /**
@@ -111,9 +111,6 @@
       const Textarea = document.createElement("textarea");
       if ("undefined" !== options.atts) {
         this.setAtts(Textarea, options.atts);
-      }
-      if ("undefined" !== options.children) {
-        Textarea.innerHTML = options.children;
       }
 
       if (this.domDebug) {
@@ -215,7 +212,7 @@
       if ("undefined" !== options.atts) {
         this.setAtts(Select, options.atts, options.options);
       }
-      console.log(options);
+
       if ("undefined" !== options.options) {
         const optDefault = document.createElement("option");
         optDefault.innerHTML = "--selecione--";
@@ -340,8 +337,8 @@
       Picker.classList.add("picker");
       Picker.innerHTML = options.label;
 
-      const Wraper = document.createElement("div");
-      Wraper.appendChild(A);
+      const Wrapper = document.createElement("div");
+      Wrapper.appendChild(A);
 
       const fields = {
         url: this.createHiddenInput({
@@ -357,17 +354,17 @@
       };
 
       Object.values(fields).map((field) => {
-        Wraper.appendChild(field);
+        Wrapper.appendChild(field);
       });
 
-      Wraper.appendChild(Picker);
-      Wraper.classList.add("picker-wraper");
+      Wrapper.appendChild(Picker);
+      Wrapper.classList.add("picker-wrapper");
 
       if (this.domDebug) {
-        console.log("createPicker", Wraper);
+        console.log("createPicker", Wrapper);
       }
 
-      return Wraper;
+      return Wrapper;
     }
 
     /**

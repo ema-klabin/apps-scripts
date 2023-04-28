@@ -35,17 +35,31 @@ class Planilha {
 
     const certificado = Object.entries(data.certificado)
       .map(([name, value]) => {
-        if ("_meta" !== name) {
-          return [name, value];
+        if ("_meta" === name) {
+          return "";
         }
+        if ("types" === name) {
+          return "";
+        }
+        return [name, value];
       })
       .filter((value) => value);
 
     const atividade = Object.entries(data.atividade)
       .map(([name, value]) => {
-        if ("_meta" !== name) {
-          return [name, value];
+        if ("_meta" === name) {
+          return "";
         }
+        if ("types" === name) {
+          return "";
+        }
+        if ("acao" === name) {
+          return "";
+        }
+        if (this.getAtividadeHeader()[0] === name) {
+          return "";
+        }
+        return [name, value];
       })
       .filter((value) => value);
 
@@ -55,18 +69,28 @@ class Planilha {
       }
     );
 
-    certificado.unshift(["Certificado", ""]);
-    atividade.unshift(["Atividade", ""]);
-    ministrantes.unshift(["Nome", "E-mail"]);
+    certificado.unshift(this.getCertificadoHeader());
+    atividade.unshift(this.getAtividadeHeader());
+    ministrantes.unshift(this.getMinistrantesHeader());
     ministrantes.unshift([
       "Ministrantes",
       Object.keys(data.ministrantes.ministrantes).length,
     ]);
-
     this.getCertificadoRange().setValues(certificado);
     this.getAtividadeRange().setValues(atividade);
-    console.log(ministrantes);
     this.getMinistrantesRange(ministrantes.length).setValues(ministrantes);
+  }
+
+  getAtividadeHeader(data) {
+    return ["Atividade", data ? data : ""];
+  }
+
+  getCertificadoHeader(data) {
+    return ["Certificado", data ? data : ""];
+  }
+
+  getMinistrantesHeader() {
+    return ["Nome", "E-mail"];
   }
 
   getClients() {
@@ -77,7 +101,15 @@ class Planilha {
       .filter((e) => e[0] !== "");
     return clients.map((client, index) => ({
       nome: client[0],
-      email: client[1],
+      email: {
+        endereco: client[1],
+        status: client[5],
+      },
+      pdf: {
+        id: client[2],
+        url: client[3],
+        status: client[4],
+      },
       linha: index + 2,
     }));
   }

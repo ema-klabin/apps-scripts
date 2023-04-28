@@ -1,6 +1,3 @@
-/**
- * Initialize the app
- */
 function onOpen() {
   const app = new App();
   app.setupSidebar();
@@ -8,7 +5,6 @@ function onOpen() {
 
 function createApp(formObject) {
   const app = new App(CONFIG.App.range);
-  console.log({ formObject });
   app.setupApp(formObject);
   return app;
 }
@@ -16,6 +12,11 @@ function createApp(formObject) {
 function pagHome() {
   const app = new App();
   app.pagApp();
+}
+
+function pagCertificate() {
+  const app = new App(CONFIG.App.range);
+  app.pagCertificate();
 }
 
 function pagClients() {
@@ -30,41 +31,23 @@ function pagSend() {
 
 function createCertificates() {
   const app = new App(CONFIG.App.configRange);
-
   app.createCertificado();
-  // Certificado.setParticipantesFromSheet();
-  // console.log('criarCertificados', Certificado);
-
-  // Certificado.criarCertificados();
-  // App._log();
-  // pagSend();
-  // return Certificado;
 }
 
-/**
- *  Get the certificado data
- * @returns {Object}
- */
-function getCertificado() {
+function enviaCertificados(form) {
+  const app = new App(CONFIG.App.configRange);
+  app.enviaCertificados(form);
+}
+
+function hasAppStarted() {
   const app = new App(CONFIG.App.range);
+  return app.hasAppStarted();
+}
 
-  // const isConfigured = app.isConfigured();
-  const isConfigured = false;
-
-  if (isConfigured) {
-    const cert = app.setupAppFromSheet();
-    const atividade = cert.getAtividade();
-    const ministrantes = atividade.getMinistrantes();
-
-    const response = {
-      certificado: cert.getMetaMerge(),
-      atividade: atividade.getMetaMerge(),
-      ministrantes: ministrantes.getMetaMerge(),
-    };
-    return response;
-  } else {
-    return getCertificadoMeta();
-  }
+function appStatus() {
+  return {
+    hasAppStarted: hasAppStarted(),
+  };
 }
 
 /**
@@ -84,3 +67,17 @@ function getCertificadoMeta() {
 
   return certificadoConfig;
 }
+
+// /**
+//  *  Get the certificado data
+//  * @returns {Object}
+//  */
+// function getCertificado() {
+//   const app = new App(CONFIG.App.range);
+
+//   if (hasAppStarted()) {
+//     const data = app.setupAppFromSheet();
+//   } else {
+//     return getCertificadoMeta();
+//   }
+// }

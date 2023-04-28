@@ -1,14 +1,11 @@
 <script>
   function handleSubmit(formObject) {
-    console.log("handleSubmit");
     switchVisible();
     google.script.run.withSuccessHandler(sucesso).createApp(formObject);
   }
 
   function sucesso(log) {
     google.script.run.pagClients();
-    switchVisible();
-    console.log("sucesso", log);
   }
 
   const remove = (el) => {

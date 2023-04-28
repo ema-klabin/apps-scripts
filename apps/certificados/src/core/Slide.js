@@ -17,8 +17,9 @@ class Slide {
     this.clients = clients;
   }
 
-  createSlides(type) {
+  async createSlides(type) {
     const template = this.getSlides()[this.map[type]];
+
     const data = this.data;
     const clients = this.clients;
     const dates = data.atividade.datas
@@ -26,7 +27,6 @@ class Slide {
         return Util.data(new Date(date));
       })
       .join(", ");
-
     const ministrantes = Object.values(data.ministrantes.ministrantes)
       .map((ministrante) => {
         console.log(ministrante);
@@ -34,9 +34,10 @@ class Slide {
       })
       .join(", ");
 
-    clients.forEach((client) => {
+    clients.forEach(async (client) => {
       this.new(data.atividade.nome);
       this.addSlide(template);
+
       this.replaceText(
         "certificado.dataEmissao",
         Util.traduzData(new Date(data.certificado.dataEmissao))
@@ -44,14 +45,13 @@ class Slide {
       this.replaceText("atividade.nome", data.atividade.nome);
       this.replaceText("atividade.acao", data.atividade.acao[type]);
       this.replaceText("atividade.datas", dates);
-      this.replaceImage("atividade.imagem", data.atividade.imagem);
       this.replaceText("atividade.duracao", data.atividade.duracao);
       this.replaceText("ministrante.nome", ministrantes);
       this.replaceText("participante.nome", client.nome);
+      this.replaceImage("atividade.imagem", data.atividade.imagem);
 
       const fileName = `[certificado] ${data.atividade.nome} - ${client.nome} | Casa Museu Ema Klabin`;
-
-      this.save(data.atividade.nome, fileName, client);
+      await this.save(data.atividade.nome, fileName, client);
     });
   }
 
@@ -110,11 +110,11 @@ class Slide {
     planilha.setCell(
       participante.linha,
       8,
-      `pdf criado em: ${Util.dataHora(new Date())}`
+      "pdf criado em: " + new Date().toLocaleString()
     );
   }
 
-  save(folder, name, participante) {
+  async save(folder, name, participante) {
     const Folder = DriveApp.getFolderById(this.folderId);
 
     const Template = this.getTemplate();
@@ -123,10 +123,10 @@ class Slide {
 
     const folders = Folder.getFoldersByName(folder);
 
-    const abstractSave = (config) => {
+    const abstractSave = async (config) => {
       config.template.saveAndClose();
       const file = DriveApp.getFileById(config.template.getId());
-      const newFile = config.folder.createFile(file.getBlob());
+      const newFile = await config.folder.createFile(file.getBlob());
       this.saveStatus(config.participante, newFile);
       newFile.setName(config.name);
     };
@@ -143,13 +143,13 @@ class Slide {
         const selectedFolder = folders.next();
         if (folder === selectedFolder.getName()) {
           config.folder = selectedFolder;
-          abstractSave(config);
+          await abstractSave(config);
         }
       }
     } else {
       const newFolder = Folder.createFolder(folder);
       config.folder = newFolder;
-      abstractSave(config);
+      await abstractSave(config);
     }
   }
 }

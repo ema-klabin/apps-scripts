@@ -1,7 +1,6 @@
 <script>
-  //   console.log("script-form.html");
   window.addEventListener("load", () => {
-    const KEY = "AIzaSyDqsoJxyfi8O7OKMrfInuShmVhx6T0lqIs";
+    // const KEY = "AIzaSyDqsoJxyfi8O7OKMrfInuShmVhx6T0lqIs";
     const pickerApiLoaded = false;
 
     /**
@@ -136,6 +135,6 @@
      */
     const certificados = google.script.run
       .withSuccessHandler(sucesso)
-      .getCertificado();
+      .getCertificadoMeta();
   });
 </script>

@@ -43,17 +43,7 @@
       placeholder: "Digite a mensagem...",
     },
     descricao:
-      "Utilize as tags <i><b>cert.nome</i></b>, <i><b>cert.dataEmissao</i></b>, <i><b>cert.atividade</i></b>, <i><b>cert.data</i></b>, <i><b>cert.duracao</i></b>, <i><b>cert.ministrante</i></b>, para substituir automaticamente por valores configurados na planilha.",
-    children: `Olá
-
-Segue certificado para 
-cert.atividade
-realizada no dia cert.data
-com duração de cert.duracao
-
-Acompanhe nossa programação https:\/\/emaklabin.org.br
-
-Até logo!`,
+      "Escreva o conteúdo da mensagem de e-mail, o pdf do certificado será anexado automaticamente na mensagem.",
   });
   fields.push(mensagem);
 
@@ -70,11 +60,12 @@ Até logo!`,
   formulario.appendChild(fieldSet);
 
   const sucesso = (msg) => {
+    switchVisible();
     console.log("sucesso", msg);
   };
 
   const enviaEmail = (form) => {
-    console.log(form);
+    switchVisible();
     google.script.run.withSuccessHandler(sucesso).enviaCertificados(form);
   };
 </script>

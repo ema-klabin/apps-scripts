@@ -23,6 +23,15 @@ class App {
     this.showSidebar(output);
   }
 
+  pagCertificate() {
+    const html = HtmlService.createTemplateFromFile(
+      "core/HTML/certificate/index"
+    );
+    const output = html.evaluate();
+    output.setTitle("Certificados");
+    this.showSidebar(output);
+  }
+
   /**
    * Exibe a página de clientes
    */
@@ -57,6 +66,7 @@ class App {
    * @returns
    */
   setupApp(formObject) {
+    this.setAppStarted(false);
     const planilha = new Planilha();
     planilha.cleanAppRange();
 
@@ -130,7 +140,7 @@ class App {
       ministrantes: this.ministrantes,
     });
     planilha.formatSheet();
-    this.setStarted();
+    this.setAppStarted(true);
 
     /**
      * Retorna
@@ -138,46 +148,64 @@ class App {
     return this;
   }
 
-  /**
-   * Retorna o app configurado
-   * @returns App
-   */
-  setupAppFromSheet() {
-    console.log("App.setupCertificadoFromSheet");
+  async createCertificado() {
+    try {
+      const planilha = new Planilha();
+      const data = planilha.getData();
+      const clients = planilha.getClients();
+      const slide = new Slide(CONFIG.Slide.templateId, CONFIG.Slide.folderId);
+
+      slide.setData(data);
+      slide.setClients(clients);
+      await slide.createSlides("participante");
+      this.pagSend();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async enviaCertificados(form) {
     const planilha = new Planilha();
     const data = planilha.getData();
     const clients = planilha.getClients();
-    // const certificado = new Certificado();
-    // certificado.setupFromSheet();
-    // return certificado;
+
+    clients.map(async (client) => {
+      try {
+        const pdf = await this.getPdf(client.linha);
+        const email = new Email(form);
+        await email.sendEmail(client.linha, client.email.endereco, [pdf]);
+      } catch (error) {
+        throw new Error(error);
+      }
+    });
   }
 
-  getClients() {
-    const planilha = new Planilha();
-    const data = planilha.getData();
-  }
-
-  createCertificado() {
-    const planilha = new Planilha();
-    const data = planilha.getData();
-    const clients = planilha.getClients();
-    const slide = new Slide(CONFIG.Slide.templateId, CONFIG.Slide.folderId);
-
-    slide.setData(data);
-    slide.setClients(clients);
-    slide.createSlides("participante");
-  }
-
-  /**
-   * Define o app como iniciado
-   *
-   * Esse método só deve ser usado quando o certificado é definido e a planilha está configurada.
-   */
-  setStarted() {
+  setAppStarted(status) {
     PropertiesService.getDocumentProperties().setProperty(
       this.getPropName(),
-      "true"
+      status.toString()
     );
+  }
+
+  async getPdf(linha) {
+    try {
+      const planilha = new Planilha();
+      const id = planilha.getCell(linha, 6);
+      const pdf = await DriveApp.getFileById(id).getAs("application/pdf");
+      return pdf;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  hasAppStarted() {
+    const prop = PropertiesService.getDocumentProperties().getProperty(
+      this.getPropName()
+    );
+    if (prop) {
+      return prop === "true";
+    }
+    return false;
   }
 
   /**
@@ -185,6 +213,6 @@ class App {
    * @returns cert_configurado
    */
   getPropName() {
-    return "cert_configurado";
+    return "cert_app_started";
   }
 }

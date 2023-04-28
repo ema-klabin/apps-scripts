@@ -8,12 +8,32 @@
   <body>
     <?!= HTML.include('core/HTML/dom') ?>
 
-    <?!= HTML.include('core/HTML/app/script-form') ?>
-
     <?!= HTML.include('core/HTML/loading') ?>
 
-    <form id="certificado" onsubmit="handleSubmit(this)"></form>
+    <h1>Gerador de certificados</h1>
+    <p>Casa Museu Ema Klabin</p>
 
-    <?!= HTML.include('core/HTML/app/script') ?>
+    <div id="status-certificado"></div>
+
+    <button onclick="pagCertificate()">Configurar certificados</button>
+    <button onclick="pagSend()">Enviar certificados</button>
+
+    <script>
+      google.script.run
+        .withSuccessHandler((status) => {
+          console.log(status);
+        })
+        .appStatus();
+
+      function pagCertificate() {
+        switchVisible();
+        google.script.run.pagCertificate();
+      }
+
+      function pagSend() {
+        switchVisible();
+        google.script.run.pagSend();
+      }
+    </script>
   </body>
 </html>

@@ -1,3 +1,11 @@
 <nav class="menu">
-  <button onclick="google.script.run.pagHome()">Voltar</button>
+  <button onclick="onMenuClick()">Voltar</button>
 </nav>
+<script>
+  const onMenuClick = () => {
+    if (typeof switchVisible !== "undefined") {
+      switchVisible();
+    }
+    google.script.run.pagHome();
+  };
+</script>

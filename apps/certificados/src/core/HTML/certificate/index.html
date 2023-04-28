@@ -8,15 +8,14 @@
   <body>
     <?!= HTML.include('core/HTML/dom') ?>
 
+    <?!= HTML.include('core/HTML/certificate/script-form') ?>
+
     <?!= HTML.include('core/HTML/loading') ?>
 
     <?!= HTML.menu() ?>
 
-    <h1>Enviar Certificados</h1>
+    <form id="certificado" onsubmit="handleSubmit(this)"></form>
 
-    <form id="formulario" onsubmit="enviaEmail(this)"></form>
-
-    <?!= HTML.include('core/HTML/send/script') ?>
-    <?!= HTML.include('core/HTML/send/form') ?>
+    <?!= HTML.include('core/HTML/certificate/script') ?>
   </body>
 </html>
