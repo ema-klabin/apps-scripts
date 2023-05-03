@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.1.0...@emak-apps/certificados@1.2.0) (2023-05-03)
+
+
+### Features
+
+* **certificados:** passa a usar configurações do script no CONFIG ([9fae3b1](https://github.com/ema-klabin/apps-scripts/commit/9fae3b1fb9e272614b4794278a208308dc748c1c))
+
+
+
+
+
 # 1.1.0 (2023-05-03)
 
 
