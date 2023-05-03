@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.1...@emak-apps/certificados@1.2.2) (2023-05-03)
+
+
+### Bug Fixes
+
+* **certificados:** adiciona scopes ([5b28872](https://github.com/ema-klabin/apps-scripts/commit/5b288724b037a1ca9b3cd40a2cbf8e895479bc20))
+
+
+
+
+
 ## [1.2.1](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.0...@emak-apps/certificados@1.2.1) (2023-05-03)
 
 **Note:** Version bump only for package @emak-apps/certificados
