@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.3](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.2...@emak-apps/certificados@1.2.3) (2023-05-03)
+
+
+### Bug Fixes
+
+* **certificados:** remove log do CONFIG onOpen ([76fee83](https://github.com/ema-klabin/apps-scripts/commit/76fee83fd683e15a337777d2918a008a67f45360))
+
+
+
+
+
 ## [1.2.2](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.1...@emak-apps/certificados@1.2.2) (2023-05-03)
 
 
