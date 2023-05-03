@@ -11,48 +11,61 @@ class Slide {
 
   setData(data) {
     this.data = data;
+    console.log("Data setada", this.data);
   }
 
   setClients(clients) {
     this.clients = clients;
+    console.log("Clients setados", this.clients);
   }
 
   async createSlides(type) {
-    const template = this.getSlides()[this.map[type]];
+    try {
+      const template = this.getSlides()[this.map[type]];
 
-    const data = this.data;
-    const clients = this.clients;
-    const dates = data.atividade.datas
-      .map((date) => {
-        return Util.data(new Date(date));
-      })
-      .join(", ");
-    const ministrantes = Object.values(data.ministrantes.ministrantes)
-      .map((ministrante) => {
-        console.log(ministrante);
-        return ministrante.nome;
-      })
-      .join(", ");
+      const data = this.data;
+      const clients = this.clients;
+      let dates = "";
+      if (data.atividade.datas.includes(",")) {
+        dates = data.atividade.datas
+          .split(",")
+          .map((date) => {
+            return Util.data(new Date(date));
+          })
+          .join(", ");
+      } else {
+        dates = Util.data(new Date(data.atividade.datas));
+      }
+      const ministrantes = Object.values(data.ministrantes.ministrantes)
+        .map((ministrante) => {
+          console.log(ministrante);
+          return ministrante.nome;
+        })
+        .join(", ");
 
-    clients.forEach(async (client) => {
-      this.new(data.atividade.nome);
-      this.addSlide(template);
+      clients.forEach(async (client) => {
+        this.new(data.atividade.nome);
+        this.addSlide(template);
 
-      this.replaceText(
-        "certificado.dataEmissao",
-        Util.traduzData(new Date(data.certificado.dataEmissao))
-      );
-      this.replaceText("atividade.nome", data.atividade.nome);
-      this.replaceText("atividade.acao", data.atividade.acao[type]);
-      this.replaceText("atividade.datas", dates);
-      this.replaceText("atividade.duracao", data.atividade.duracao);
-      this.replaceText("ministrante.nome", ministrantes);
-      this.replaceText("participante.nome", client.nome);
-      this.replaceImage("atividade.imagem", data.atividade.imagem);
+        this.replaceText(
+          "certificado.dataEmissao",
+          Util.traduzData(new Date(data.certificado.dataEmissao))
+        );
+        this.replaceText("atividade.nome", data.atividade.nome);
+        this.replaceText("atividade.acao", data.atividade.acao[type]);
+        this.replaceText("atividade.datas", dates);
+        this.replaceText("atividade.duracao", data.atividade.duracao);
+        this.replaceText("ministrante.nome", ministrantes);
+        this.replaceText("participante.nome", client.nome);
+        this.replaceImage("atividade.imagem", data.atividade.imagem);
 
-      const fileName = `[certificado] ${data.atividade.nome} - ${client.nome} | Casa Museu Ema Klabin`;
-      await this.save(data.atividade.nome, fileName, client);
-    });
+        const fileName = `[certificado] ${data.atividade.nome} - ${client.nome} | Casa Museu Ema Klabin`;
+        await this.save(data.atividade.nome, fileName, client);
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
   }
 
   setSlides() {

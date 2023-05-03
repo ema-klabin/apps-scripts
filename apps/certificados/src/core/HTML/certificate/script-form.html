@@ -7,6 +7,8 @@
      * Monta o formulário de acordo com o esquema de metadados recebido do servidor
      */
     const sucesso = (certificado) => {
+      console.log("sucesso", { certificado });
+
       const form = document.querySelector("form#certificado");
 
       const Certificado = document.createElement("fieldset");

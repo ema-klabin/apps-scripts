@@ -15,24 +15,79 @@
 
     <div id="status-certificado"></div>
 
-    <button onclick="pagCertificate()">Configurar certificados</button>
-    <button onclick="pagSend()">Enviar certificados</button>
+    <div class="action-grid">
+      <button onclick="pagCertificate()" class="configure">
+        Configurar certificados
+      </button>
+      <button onclick="pagClients()" class="mount hidden">
+        Montar certificados dos clientes
+      </button>
+      <button onclick="pagSend()" class="send hidden">
+        Enviar certificados
+      </button>
+    </div>
 
     <script>
-      google.script.run
+      const onSuccess = (status) => {
+        console.log({ status });
+      };
+
+      const onFailure = (err) => {
+        throw new Error(err);
+      };
+
+      const hasCertificatesCreated = google.script.run
+        .withFailureHandler(onFailure)
         .withSuccessHandler((status) => {
-          console.log(status);
+          if (status) {
+            document.querySelector("button.send").classList.remove("hidden");
+          }
         })
-        .appStatus();
+        .hasCertificatesCreated();
+
+      const isClientsConfigured = google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler((status) => {
+          if (status) {
+            document.querySelector("button.mount").classList.remove("hidden");
+          }
+        })
+        .isClientsConfigured();
 
       function pagCertificate() {
-        switchVisible();
-        google.script.run.pagCertificate();
+        try {
+          switchVisible();
+          google.script.run
+            .withFailureHandler(onFailure)
+            .withSuccessHandler(onSuccess)
+            .pagCertificate();
+        } catch (err) {
+          console.log({ err });
+        }
+      }
+
+      function pagClients() {
+        try {
+          switchVisible();
+          google.script.run
+            .withFailureHandler(onFailure)
+            .withSuccessHandler(onSuccess)
+            .pagClients();
+        } catch (err) {
+          console.log({ err });
+        }
       }
 
       function pagSend() {
-        switchVisible();
-        google.script.run.pagSend();
+        try {
+          switchVisible();
+          google.script.run
+            .withFailureHandler(onFailure)
+            .withSuccessHandler(onSuccess)
+            .pagSend();
+        } catch (err) {
+          console.log({ err });
+        }
       }
     </script>
   </body>

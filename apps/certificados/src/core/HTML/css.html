@@ -1,6 +1,7 @@
 <style>
   :root {
     --verde: #006b62;
+    --verde-escuro: #004748;
     --branco: #fff;
     --preto: #000;
     --esp1: 5px;
@@ -28,11 +29,45 @@
     width: 100%;
     height: 100%;
     z-index: 999;
-    background-color: var(--branco);
+    background-color: var(--verde);
+    color: var(--branco);
+    font-size: large;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loader {
+    border: var(--esp2) solid var(--verde-escuro);
+    border-radius: 50%;
+    border-top: var(--esp2) solid var(--branco);
+    width: calc(var(--esp4) * 2);
+    height: calc(var(--esp4) * 2);
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
   }
   .hidden {
     display: none;
     visibility: hidden;
+  }
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
   fieldset {
     border: 2px solid var(--verde);
@@ -78,6 +113,8 @@
   form .array .data {
     display: grid;
     grid-template-columns: repeat(2, max-content);
+    justify-content: space-between;
+    align-items: start;
     border: var(--verde) 2px dotted;
     padding: var(--esp1);
     grid-gap: var(--esp2);
@@ -87,6 +124,40 @@
   }
   form .adiciona-data {
     margin-top: var(--esp2);
+  }
+
+  button,
+  input[type="submit"] {
+    padding: var(--esp1);
+    border-radius: var(--esp1);
+    border: 1px solid var(--verde);
+    background-color: var(--verde);
+    color: var(--branco);
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: var(--verde-escuro);
+  }
+  input[type="submit"]:hover {
+    background-color: var(--verde-escuro);
+  }
+
+  .remove {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .action-grid {
+    display: grid;
+    grid-gap: var(--esp2);
+  }
+
+  .error {
+    background-color: red;
+    color: var(--branco);
+    padding: var(--esp2);
+    border-radius: var(--esp1);
+    margin-bottom: var(--esp2);
   }
 
   .status {

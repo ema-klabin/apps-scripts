@@ -88,9 +88,7 @@ class Atividade {
   mount(config) {
     config.map((value) => {
       if (value[0] === "datas") {
-        this[value[0]] = value[1].toString().includes(",")
-          ? value[1].split(",")
-          : [value[1]];
+        this[value[0]] = value[1].toString();
       } else if (value[0] === "tipo") {
         this.acao = this.types[value[1]];
         this[value[0]] = value[1];

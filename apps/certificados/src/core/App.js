@@ -24,12 +24,17 @@ class App {
   }
 
   pagCertificate() {
-    const html = HtmlService.createTemplateFromFile(
-      "core/HTML/certificate/index"
-    );
-    const output = html.evaluate();
-    output.setTitle("Certificados");
-    this.showSidebar(output);
+    try {
+      const html = HtmlService.createTemplateFromFile(
+        "core/HTML/certificate/index"
+      );
+      const output = html.evaluate();
+      console.log("pagCertificate", { output });
+      output.setTitle("Certificados");
+      this.showSidebar(output);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /**
@@ -148,17 +153,21 @@ class App {
     return this;
   }
 
-  async createCertificado() {
+  async createCertificate() {
     try {
       const planilha = new Planilha();
       const data = planilha.getData();
       const clients = planilha.getClients();
-      const slide = new Slide(CONFIG.Slide.templateId, CONFIG.Slide.folderId);
-
-      slide.setData(data);
-      slide.setClients(clients);
-      await slide.createSlides("participante");
-      this.pagSend();
+      if (clients) {
+        const slide = new Slide(CONFIG.Slide.templateId, CONFIG.Slide.folderId);
+        slide.setData(data);
+        slide.setClients(clients);
+        await slide.createSlides("participante");
+        console.log("criado");
+        return true;
+      } else {
+        throw new Error("No clients configured");
+      }
     } catch (error) {
       throw new Error(error);
     }
@@ -180,13 +189,6 @@ class App {
     });
   }
 
-  setAppStarted(status) {
-    PropertiesService.getDocumentProperties().setProperty(
-      this.getPropName(),
-      status.toString()
-    );
-  }
-
   async getPdf(linha) {
     try {
       const planilha = new Planilha();
@@ -198,19 +200,86 @@ class App {
     }
   }
 
-  hasAppStarted() {
-    const prop = PropertiesService.getDocumentProperties().getProperty(
-      this.getPropName()
-    );
-    if (prop) {
-      return prop === "true";
+  setAppStarted(status) {
+    try {
+      PropertiesService.getScriptProperties().setProperty(
+        this.getPropName(),
+        status.toString()
+      );
+    } catch (error) {
+      throw new Error(error);
     }
-    return false;
+  }
+
+  hasAppStarted() {
+    try {
+      const prop = PropertiesService.getScriptProperties().getProperty(
+        this.getPropName()
+      );
+      if (prop) {
+        return prop === "true";
+      }
+      return false;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  setCertificatesCreated(status) {
+    try {
+      PropertiesService.getScriptProperties().setProperty(
+        "certificates_created",
+        status.toString()
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  setClientsConfigured(status) {
+    try {
+      PropertiesService.getScriptProperties().setProperty(
+        "clients_configured",
+        status.toString()
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  hasCertificatesCreated() {
+    try {
+      const prop = PropertiesService.getScriptProperties().getProperty(
+        "certificates_created"
+      );
+      if (prop) {
+        return prop === "true";
+      }
+      return false;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  isClientsConfigured() {
+    try {
+      const prop =
+        PropertiesService.getScriptProperties().getProperty(
+          "clients_configured"
+        );
+      console.log(prop);
+      if (prop) {
+        return prop === "true";
+      }
+      return false;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   /**
    * Nome da propriedade salva quando o certificado está configurado
-   * @returns cert_configurado
+   * @returns cert_app_starter
    */
   getPropName() {
     return "cert_app_started";

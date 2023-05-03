@@ -99,19 +99,22 @@ class Planilha {
       .getRange(this.participantesRange)
       .getValues()
       .filter((e) => e[0] !== "");
-    return clients.map((client, index) => ({
-      nome: client[0],
-      email: {
-        endereco: client[1],
-        status: client[5],
-      },
-      pdf: {
-        id: client[2],
-        url: client[3],
-        status: client[4],
-      },
-      linha: index + 2,
-    }));
+    if (clients.length > 0) {
+      return clients.map((client, index) => ({
+        nome: client[0],
+        email: {
+          endereco: client[1],
+          status: client[5],
+        },
+        pdf: {
+          id: client[2],
+          url: client[3],
+          status: client[4],
+        },
+        linha: index + 2,
+      }));
+    }
+    return false;
   }
 
   // return a object with the data from the sheet, the data is formatted as a array of array of string

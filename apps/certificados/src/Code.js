@@ -15,39 +15,62 @@ function pagHome() {
 }
 
 function pagCertificate() {
-  const app = new App(CONFIG.App.range);
-  app.pagCertificate();
+  try {
+    const app = new App();
+    app.pagCertificate();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function pagClients() {
-  const app = new App(CONFIG.App.range);
-  app.pagClients();
+  try {
+    const app = new App(CONFIG.App.range);
+    app.pagClients();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function pagSend() {
-  const app = new App(CONFIG.App.range);
-  app.pagSend();
+  try {
+    const app = new App(CONFIG.App.range);
+    app.pagSend();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function createCertificates() {
-  const app = new App(CONFIG.App.configRange);
-  app.createCertificado();
+  const app = new App(CONFIG.App.range);
+  const cert = app.createCertificate();
+  if (cert) {
+    app.setClientsConfigured(true);
+    app.setCertificatesCreated(true);
+    app.pagSend();
+  } else if (cert instanceof Error) {
+    return cert;
+  }
 }
 
 function enviaCertificados(form) {
-  const app = new App(CONFIG.App.configRange);
+  const app = new App(CONFIG.App.range);
   app.enviaCertificados(form);
 }
 
 function hasAppStarted() {
-  const app = new App(CONFIG.App.range);
+  const app = new App();
   return app.hasAppStarted();
 }
 
-function appStatus() {
-  return {
-    hasAppStarted: hasAppStarted(),
-  };
+function hasCertificatesCreated() {
+  const app = new App();
+  return app.hasCertificatesCreated();
+}
+
+function isClientsConfigured() {
+  const app = new App();
+  return app.isClientsConfigured();
 }
 
 /**

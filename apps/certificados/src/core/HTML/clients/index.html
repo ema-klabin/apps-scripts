@@ -19,11 +19,29 @@
       </p>
     </div>
 
+    <div id="status"></div>
+
     <button onclick="criaCertificado()">Criar certificados</button>
     <script>
+      const onSuccess = (status) => {
+        console.log({ status });
+      };
+
+      const onFailure = (err) => {
+        const status = document.querySelector("#status");
+        status.innerHTML =
+          'Nenhum cliente configurado. Adicione clientes nas colunas "nome" e "e-mail".';
+        switchVisible();
+        status.classList.add("error");
+        throw new Error(err);
+      };
+
       function criaCertificado() {
         switchVisible();
-        google.script.run.createCertificates();
+        google.script.run
+          .withSuccessHandler(onSuccess)
+          .withFailureHandler(onFailure)
+          .createCertificates();
       }
     </script>
   </body>
