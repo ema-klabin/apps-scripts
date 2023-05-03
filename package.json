@@ -13,7 +13,7 @@
   "scripts": {
     "commit": "cz",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "version-up": "lerna version --conventional-commits"
+    "version-up": "lerna version --no-private --conventional-commits"
   },
   "config": {
     "commitizen": {
