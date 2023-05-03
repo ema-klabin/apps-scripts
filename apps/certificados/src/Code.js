@@ -1,6 +1,7 @@
 function onOpen() {
   const app = new App();
   app.setupSidebar();
+  console.log(CONFIG);
 }
 
 function createApp(formObject) {

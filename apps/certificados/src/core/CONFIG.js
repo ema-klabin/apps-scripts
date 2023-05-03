@@ -1,27 +1,39 @@
 const CONFIG = {
   App: {
-    range: "A1:B30",
+    range: PropertiesService.getScriptProperties().getProperty("app_range"),
   },
   Certificado: {
-    range: "A1:B2",
+    range:
+      PropertiesService.getScriptProperties().getProperty("certificado_range"),
   },
   Atividade: {
-    range: "A4:B10",
+    range:
+      PropertiesService.getScriptProperties().getProperty("atividade_range"),
     imagem: {
-      id: "1f_pftnD6XFbX4cbqzaVbyJYUm-Q1duqP",
-      url: "https://drive.google.com/file/d/1f_pftnD6XFbX4cbqzaVbyJYUm-Q1duqP/view?usp=drivesdk",
+      id: PropertiesService.getScriptProperties().getProperty(
+        "atividade_imagem_id"
+      ),
+      url: PropertiesService.getScriptProperties().getProperty(
+        "atividade_imagem_url"
+      ),
     },
   },
   Ministrantes: {
-    rangeStart: 12,
+    rangeStart: PropertiesService.getScriptProperties().getProperty(
+      "ministrantes_range_start"
+    ),
   },
   Participantes: {
-    range: "D2:I",
+    range: PropertiesService.getScriptProperties().getProperty(
+      "participantes_range"
+    ),
   },
   Slide: {
     templateUrl:
-      "https://docs.google.com/presentation/d/1dlbTQ3v7b_hg7nInv6R1bX7W9H5tkUe6uSmFozaApdY/edit?usp=sharing",
-    templateId: "1dlbTQ3v7b_hg7nInv6R1bX7W9H5tkUe6uSmFozaApdY",
-    folderId: "1HUsEVSMhQN6kqyU7KLTYwtm5FyVTdAYE",
+      PropertiesService.getScriptProperties().getProperty("slide_template_url"),
+    templateId:
+      PropertiesService.getScriptProperties().getProperty("slide_template_id"),
+    folderId:
+      PropertiesService.getScriptProperties().getProperty("slide_folder_id"),
   },
 };
