@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.3...@emak-apps/certificados@1.2.4) (2023-05-03)
+
+
+### Bug Fixes
+
+* **certificados:** correção de autentição onOpen ([94758de](https://github.com/ema-klabin/apps-scripts/commit/94758deda35fa9df8b9e266bc99dd2d6ad8fbbf5))
+
+
+
+
+
 ## [1.2.3](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.2...@emak-apps/certificados@1.2.3) (2023-05-03)
 
 
