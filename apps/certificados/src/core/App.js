@@ -119,8 +119,8 @@ class App {
     });
     atividadeConfig.push(["datas", datas]);
 
-    atividadeConfig.push(["imagem", CONFIG.Atividade.imagem.id]);
-    atividadeConfig.push(["url", CONFIG.Atividade.imagem.url]);
+    atividadeConfig.push(["imagem", CONFIG.Atividade.imagem.id()]);
+    atividadeConfig.push(["url", CONFIG.Atividade.imagem.url()]);
 
     const atividade = new Atividade();
     atividade.mount(atividadeConfig);
@@ -159,7 +159,10 @@ class App {
       const data = planilha.getData();
       const clients = planilha.getClients();
       if (clients) {
-        const slide = new Slide(CONFIG.Slide.templateId, CONFIG.Slide.folderId);
+        const slide = new Slide(
+          CONFIG.Slide.templateId(),
+          CONFIG.Slide.folderId()
+        );
         slide.setData(data);
         slide.setClients(clients);
         await slide.createSlides("participante");
@@ -202,7 +205,7 @@ class App {
 
   setAppStarted(status) {
     try {
-      PropertiesService.getScriptProperties().setProperty(
+      PropertiesService.getDocumentProperties().setProperty(
         this.getPropName(),
         status.toString()
       );
@@ -213,7 +216,7 @@ class App {
 
   hasAppStarted() {
     try {
-      const prop = PropertiesService.getScriptProperties().getProperty(
+      const prop = PropertiesService.getDocumentProperties().getProperty(
         this.getPropName()
       );
       if (prop) {
@@ -227,7 +230,7 @@ class App {
 
   setCertificatesCreated(status) {
     try {
-      PropertiesService.getScriptProperties().setProperty(
+      PropertiesService.getDocumentProperties().setProperty(
         "certificates_created",
         status.toString()
       );
@@ -238,7 +241,7 @@ class App {
 
   setClientsConfigured(status) {
     try {
-      PropertiesService.getScriptProperties().setProperty(
+      PropertiesService.getDocumentProperties().setProperty(
         "clients_configured",
         status.toString()
       );
@@ -249,7 +252,7 @@ class App {
 
   hasCertificatesCreated() {
     try {
-      const prop = PropertiesService.getScriptProperties().getProperty(
+      const prop = PropertiesService.getDocumentProperties().getProperty(
         "certificates_created"
       );
       if (prop) {
@@ -264,7 +267,7 @@ class App {
   isClientsConfigured() {
     try {
       const prop =
-        PropertiesService.getScriptProperties().getProperty(
+        PropertiesService.getDocumentProperties().getProperty(
           "clients_configured"
         );
       console.log(prop);

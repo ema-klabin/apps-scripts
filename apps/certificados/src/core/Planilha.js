@@ -1,10 +1,10 @@
 class Planilha {
   constructor() {
-    this.appRange = CONFIG.App.range;
-    this.certicadoRange = CONFIG.Certificado.range;
-    this.atividadeRange = CONFIG.Atividade.range;
-    this.participantesRange = CONFIG.Participantes.range;
-    this.ministrantesRangeStart = CONFIG.Ministrantes.rangeStart;
+    this.appRange = CONFIG.App.range();
+    this.certicadoRange = CONFIG.Certificado.range();
+    this.atividadeRange = CONFIG.Atividade.range();
+    this.participantesRange = CONFIG.Participantes.range();
+    this.ministrantesRangeStart = CONFIG.Ministrantes.rangeStart();
     this.setSheet();
   }
 

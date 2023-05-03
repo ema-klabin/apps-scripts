@@ -1,10 +1,24 @@
-function onOpen() {
-  const app = new App();
-  app.setupSidebar();
+function onInstall(e) {
+  onOpen(e);
+}
+
+function onOpen(e) {
+  const menu = SpreadsheetApp.getUi().createAddonMenu();
+  if (e && e.authMode == ScriptApp.AuthMode.NONE) {
+    menu.addItem("Autenticar", "authenticate");
+    menu.addToUi();
+  } else {
+    const app = new App();
+    app.setupSidebar();
+  }
+}
+
+function authenticate() {
+  console.log("login");
 }
 
 function createApp(formObject) {
-  const app = new App(CONFIG.App.range);
+  const app = new App(CONFIG.App.range());
   app.setupApp(formObject);
   return app;
 }
@@ -25,7 +39,7 @@ function pagCertificate() {
 
 function pagClients() {
   try {
-    const app = new App(CONFIG.App.range);
+    const app = new App(CONFIG.App.range());
     app.pagClients();
   } catch (error) {
     console.log(error);
@@ -34,7 +48,7 @@ function pagClients() {
 
 function pagSend() {
   try {
-    const app = new App(CONFIG.App.range);
+    const app = new App(CONFIG.App.range());
     app.pagSend();
   } catch (error) {
     console.log(error);
@@ -42,7 +56,7 @@ function pagSend() {
 }
 
 function createCertificates() {
-  const app = new App(CONFIG.App.range);
+  const app = new App(CONFIG.App.range());
   const cert = app.createCertificate();
   if (cert) {
     app.setClientsConfigured(true);
@@ -78,9 +92,9 @@ function isClientsConfigured() {
  * @returns {Object}
  */
 function getCertificadoMeta() {
-  const certificado = new Certificado(CONFIG.Certificado.range);
-  const atividade = new Atividade(CONFIG.Atividade.range);
-  const ministrantes = new Ministrantes(CONFIG.Ministrantes.rangeStart);
+  const certificado = new Certificado(CONFIG.Certificado.range());
+  const atividade = new Atividade(CONFIG.Atividade.range());
+  const ministrantes = new Ministrantes(CONFIG.Ministrantes.rangeStart());
 
   const certificadoConfig = {
     certificado: certificado.getMeta(),
@@ -90,17 +104,3 @@ function getCertificadoMeta() {
 
   return certificadoConfig;
 }
-
-// /**
-//  *  Get the certificado data
-//  * @returns {Object}
-//  */
-// function getCertificado() {
-//   const app = new App(CONFIG.App.range);
-
-//   if (hasAppStarted()) {
-//     const data = app.setupAppFromSheet();
-//   } else {
-//     return getCertificadoMeta();
-//   }
-// }

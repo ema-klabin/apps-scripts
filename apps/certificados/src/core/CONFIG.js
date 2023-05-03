@@ -1,39 +1,44 @@
 const CONFIG = {
   App: {
-    range: PropertiesService.getScriptProperties().getProperty("app_range"),
+    range: () =>
+      PropertiesService.getScriptProperties().getProperty("app_range"),
   },
   Certificado: {
-    range:
+    range: () =>
       PropertiesService.getScriptProperties().getProperty("certificado_range"),
   },
   Atividade: {
-    range:
+    range: () =>
       PropertiesService.getScriptProperties().getProperty("atividade_range"),
     imagem: {
-      id: PropertiesService.getScriptProperties().getProperty(
-        "atividade_imagem_id"
-      ),
-      url: PropertiesService.getScriptProperties().getProperty(
-        "atividade_imagem_url"
-      ),
+      id: () =>
+        PropertiesService.getScriptProperties().getProperty(
+          "atividade_imagem_id"
+        ),
+      url: () =>
+        PropertiesService.getScriptProperties().getProperty(
+          "atividade_imagem_url"
+        ),
     },
   },
   Ministrantes: {
-    rangeStart: PropertiesService.getScriptProperties().getProperty(
-      "ministrantes_range_start"
-    ),
+    rangeStart: () =>
+      PropertiesService.getScriptProperties().getProperty(
+        "ministrantes_range_start"
+      ),
   },
   Participantes: {
-    range: PropertiesService.getScriptProperties().getProperty(
-      "participantes_range"
-    ),
+    range: () =>
+      PropertiesService.getScriptProperties().getProperty(
+        "participantes_range"
+      ),
   },
   Slide: {
-    templateUrl:
+    templateUrl: () =>
       PropertiesService.getScriptProperties().getProperty("slide_template_url"),
-    templateId:
+    templateId: () =>
       PropertiesService.getScriptProperties().getProperty("slide_template_id"),
-    folderId:
+    folderId: () =>
       PropertiesService.getScriptProperties().getProperty("slide_folder_id"),
   },
 };
