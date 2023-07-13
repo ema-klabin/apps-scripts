@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.5](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.4...@emak-apps/certificados@1.2.5) (2023-07-13)
+
+
+### Bug Fixes
+
+* **certificados:** adiciona XVI encontro ([2b7ff83](https://github.com/ema-klabin/apps-scripts/commit/2b7ff83315a9b2eb2f1bf5e1d4d2f538fb702659))
+
+
+
+
+
 ## [1.2.4](https://github.com/ema-klabin/apps-scripts/compare/@emak-apps/certificados@1.2.3...@emak-apps/certificados@1.2.4) (2023-05-03)
 
 
