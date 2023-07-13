@@ -22,6 +22,11 @@ class Atividade {
         participante: "Participou da oficina",
         ministrante: "Ministrou a oficina",
       },
+      "xvi-encontro": {
+        label: "XVI Encontro",
+        participante: "Participou",
+        ministrante: "Integrou",
+      },
     };
 
     this._meta = [

@@ -46,6 +46,7 @@ class Slide {
       clients.forEach(async (client) => {
         this.new(data.atividade.nome);
         this.addSlide(template);
+        const fileName = `[certificado] ${data.atividade.nome} - ${client.nome} | Casa Museu Ema Klabin`;
 
         this.replaceText(
           "certificado.dataEmissao",
@@ -59,7 +60,6 @@ class Slide {
         this.replaceText("participante.nome", client.nome);
         this.replaceImage("atividade.imagem", data.atividade.imagem);
 
-        const fileName = `[certificado] ${data.atividade.nome} - ${client.nome} | Casa Museu Ema Klabin`;
         await this.save(data.atividade.nome, fileName, client);
       });
     } catch (error) {
@@ -80,19 +80,6 @@ class Slide {
     return this.id;
   }
 
-  replaceImage(find, replace) {
-    const images = this.getTemplate().getSlides()[0].getImages();
-    const image = images.filter((image) => {
-      if (null !== image.getLink()) {
-        return image.getLink().getUrl() === "#" + find ? image : null;
-      }
-    })[0];
-    image.removeLink();
-    const newImage = DriveApp.getFileById(replace);
-    image.replace(newImage);
-    return image;
-  }
-
   getImage() {}
 
   getTemplate() {
@@ -105,6 +92,21 @@ class Slide {
 
   addSlide(slide) {
     this.getTemplate().insertSlide(0, slide);
+  }
+
+  replaceImage(find, replace) {
+    const images = this.getTemplate().getSlides()[0].getImages();
+    const image = images.filter((image) => {
+      if (null !== image.getLink()) {
+        return image.getLink().getUrl() === "#" + find ? image : null;
+      }
+    })[0];
+    if (image) {
+      image.removeLink();
+      const newImage = DriveApp.getFileById(replace);
+      image.replace(newImage);
+      return image;
+    }
   }
 
   replaceText(find, replace) {
