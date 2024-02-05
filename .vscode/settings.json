@@ -1,7 +1,7 @@
 {
-  "files.autoSave": "onWindowChange",
-  "files.exclude": {
-    "**/.git": false
-  },
-  "editor.tabSize": 2
+    "files.autoSave": "onWindowChange",
+    "files.exclude": {
+        "**/.git": false
+    },
+    "editor.formatOnSave": true
 }

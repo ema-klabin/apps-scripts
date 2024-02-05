@@ -1,29 +1,29 @@
 {
-  "name": "emak-apps",
-  "version": "1.0.0",
-  "private": true,
-  "description": "emak-apps-script monorepo",
-  "keywords": [],
-  "license": "ISC",
-  "author": "",
-  "main": "index.js",
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "commit": "cz",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "version-up": "lerna version --no-private --conventional-commits"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
+    "name": "emak-apps",
+    "version": "1.0.0",
+    "private": true,
+    "description": "emak-apps-script monorepo",
+    "keywords": [],
+    "license": "ISC",
+    "author": "",
+    "main": "index.js",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "commit": "cz",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "version-up": "lerna version --no-private --conventional-commits"
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    },
+    "dependencies": {
+        "clasp": "^1.0.0",
+        "commitizen": "^4.3.0",
+        "conventional-changelog": "^3.1.25",
+        "lerna": "^6.6.1"
     }
-  },
-  "dependencies": {
-    "clasp": "^1.0.0",
-    "commitizen": "^4.3.0",
-    "conventional-changelog": "^3.1.25",
-    "lerna": "^6.6.1"
-  }
 }

@@ -26,6 +26,7 @@ class Atividade {
         label: "XVI Encontro",
         participante: "Participou",
         ministrante: "Integrou",
+        equipe: "Participou da produção",
       },
     };
 

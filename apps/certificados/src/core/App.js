@@ -166,7 +166,6 @@ class App {
         slide.setData(data);
         slide.setClients(clients);
         await slide.createSlides("participante");
-        console.log("criado");
         return true;
       } else {
         throw new Error("No clients configured");
