@@ -11,6 +11,9 @@
     },
     "exceptionLogging": "STACKDRIVER",
     "runtimeVersion": "V8",
+    "executionApi": {
+        "access": "ANYONE"
+    },
     "oauthScopes": [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/script.external_request",
@@ -18,6 +21,7 @@
         "https://www.googleapis.com/auth/youtube.readonly",
         "https://www.googleapis.com/auth/youtubepartner",
         "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
-        "https://www.googleapis.com/auth/yt-analytics.readonly"
+        "https://www.googleapis.com/auth/yt-analytics.readonly",
+        "https://www.googleapis.com/auth/analytics.readonly"
     ]
 }

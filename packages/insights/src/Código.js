@@ -137,37 +137,75 @@ function analytics() {
     try {
         const propertyID = "394335323";
 
-        const dimension = AnalyticsData.newDimension();
-        dimension.name = "date";
+        const dimensions = analyticsDimensions("date");
 
-        const metrics = [];
-        const users = AnalyticsData.newMetric();
-        users.name = "totalUsers";
-        metrics.push(users);
+        const metricsDescription = [
+            [
+                "totalUsers",
+                "O número de usuários distintos que registraram pelo menos um evento, independentemente do site ou app estar em uso quando esse evento foi registrado.",
+            ],
+            [
+                "activeUsers",
+                "Número de usuários únicos que acessaram seu site ou app.",
+            ],
+            [
+                "newUsers",
+                "O número de usuários que interagiram com seu site ou acessaram seu app pela primeira vez (evento acionado: first_open ou first_visit).",
+            ],
+            [
+                "sessionsPerUser",
+                "Número médio de sessões por usuário (sessões divididas por usuários ativos).",
+            ],
+            [
+                "bounceRate",
+                "A porcentagem de sessões não engajadas ((menos sessões engajadas) dividida por sessões. Essa métrica é retornada como uma fração. Por exemplo, 0,2761 significa que 27,61% das sessões foram rejeições.",
+            ],
+            [
+                "engagedSessions",
+                "Quantas sessões duraram mais de 10 segundos, tiveram um evento de conversão ou duas ou mais exibições de tela.",
+            ],
+            [
+                "engagementRate",
+                "A porcentagem de sessões engajadas (sessões engajadas divididas por sessões). Essa métrica é retornada como uma fração. Por exemplo, 0,7239 significa que 72,39% das sessões foram engajadas.",
+            ],
+            [
+                "dauPerMau",
+                "Porcentagem contínua de usuários ativos por 30 dias que também são usuários ativos por 1 dia. Essa métrica é retornada como uma fração. Por exemplo, 0,113 significa que 11,3% dos usuários ativos em 30 dias também foram ativos por 1 dia.",
+            ],
+            [
+                "dauPerWau",
+                "Porcentagem contínua de usuários ativos por 7 dias que também são usuários ativos por 1 dia. Essa métrica é retornada como uma fração. Por exemplo, 0,082 significa que 8,2% dos usuários ativos em 7 dias também foram ativos por 1 dia.",
+            ],
+        ];
 
-        const dateRange = AnalyticsData.newDateRange();
-        dateRange.startDate = "01-01-2024";
-        dateRange.endDate = "31-01-2024";
+        const metrics = analyticsMetrics(
+            ...metricsDescription.map((m) => m[0])
+        );
 
-        const orderBy = AnalyticsData.newOrderBy();
-        orderBy.desc = false;
-        const dimensionOrderBy = AnalyticsData.newDimensionOrderBy();
-        dimensionOrderBy.dimensionName = dimension.name;
-        dimensionOrderBy.orderType = "NUMERIC";
-        orderBy.dimension = dimensionOrderBy;
+        const dateRange = analyticsDateRange(startDate, endDate);
 
-        const request = AnalyticsData.newRunReportRequest();
-        request.dimensions = [dimension];
-        request.metrics = [metrics];
-        request.dateRanges = dateRange;
-        request.orderBys = orderBy;
+        const orderBy = analyticsOrderBy(dimensions[0]);
+
+        const request = analyticsRequest({
+            dimensions,
+            metrics: [metrics],
+            dateRange,
+            orderBy,
+        });
+
+        // console.log({ dimensions, metrics, dateRange, orderBy, request });
 
         const response = AnalyticsData.Properties.runReport(
             request,
             "properties/" + propertyID
         );
 
-        console.log({ response });
+        for (const row of response.rows) {
+            console.log({
+                dimension: row.dimensionValues,
+                metrics: row.metricValues,
+            });
+        }
     } catch (error) {
         console.error(error);
     }
