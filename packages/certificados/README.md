@@ -1,10 +1,10 @@
-# `@emak-apps/certificados`
+# `@ek-apps/pkg-certificados`
 
-> Gerador de certificados para Casa Museu Ema Klabin
+Gerador de certificados para Casa Museu Ema Klabin
 
 ## Instalação do usuário
 
-Navegue pelo menu "Extensões" > "Complementos" > "Instalar complementos"
+Navegue pelo menu `Extensões > Complementos > Instalar complementos`
 
 ![Instalar complementos](assets/complementos.png)
 
