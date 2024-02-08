@@ -1,8 +1,8 @@
-function getDownloads() {
+function downloads() {
     const rest = new RestAPI({
         base: "https://emaklabin.org.br/wp-json",
         headers: {
-            Authorization: `Bearer 63c83a479e0dd`,
+            Authorization: `Bearer ${CONFIG.tokens.wpdm()}`,
         },
     });
 
@@ -36,7 +36,7 @@ function getDownloads() {
 
     transportaParaPlanilha({
         Insights: Downloads,
-        sheetName: "Downloads",
+        sheetName: "[site-wpdm] Downloads",
         sheetID: CONFIG.ids.sheet(),
     });
 }

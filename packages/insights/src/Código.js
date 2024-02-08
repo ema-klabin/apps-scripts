@@ -1,4 +1,13 @@
-function instagram() {
+function runReports() {
+    instagramReport();
+    facebookReport();
+    newsletterReport();
+    googleAnalyticsReport();
+    downloadsReport();
+    // youtubeReport();
+}
+
+function instagramReport() {
     const metrics = [
         "impressions",
         // 'follower_count',
@@ -14,12 +23,12 @@ function instagram() {
         metrics,
         startDate,
         endDate,
-        sheetName: "Instagram",
+        sheetName: "[redes] Instagram",
         sheetID: CONFIG.ids.sheet(),
     });
 }
 
-function facebook() {
+function facebookReport() {
     const metrics = [
         "page_engaged_users",
         "page_post_engagements",
@@ -34,12 +43,12 @@ function facebook() {
         metrics,
         startDate,
         endDate,
-        sheetName: "Facebook",
+        sheetName: "[redes] Facebook",
         sheetID: CONFIG.ids.sheet(),
     });
 }
 
-function newsletter() {
+function newsletterReport() {
     const rest = new RestAPI({
         base: "api.egoiapp.com",
         headers: {
@@ -105,15 +114,24 @@ function newsletter() {
 
     transportaParaPlanilha({
         Insights: Campanhas,
-        sheetName: "Campanhas",
+        sheetName: "[e-goi] Campanhas",
         sheetID: CONFIG.ids.sheet(),
     });
+}
+
+function googleAnalyticsReport() {
+    analyticsAudienceReport();
+    analyticsEngagementReport();
+}
+
+function downloadsReport() {
+    downloads();
 }
 
 /**
  * Com problemas
  */
-function youtube() {
+function youtubeReport() {
     const metrics = [
         "views",
         "estimatedMinutesWatched",
@@ -131,44 +149,4 @@ function youtube() {
     });
 
     console.log(report);
-}
-
-function analytics() {
-    try {
-        const propertyID = "394335323";
-
-        const dimension = AnalyticsData.newDimension();
-        dimension.name = "date";
-
-        const metrics = [];
-        const users = AnalyticsData.newMetric();
-        users.name = "totalUsers";
-        metrics.push(users);
-
-        const dateRange = AnalyticsData.newDateRange();
-        dateRange.startDate = "01-01-2024";
-        dateRange.endDate = "31-01-2024";
-
-        const orderBy = AnalyticsData.newOrderBy();
-        orderBy.desc = false;
-        const dimensionOrderBy = AnalyticsData.newDimensionOrderBy();
-        dimensionOrderBy.dimensionName = dimension.name;
-        dimensionOrderBy.orderType = "NUMERIC";
-        orderBy.dimension = dimensionOrderBy;
-
-        const request = AnalyticsData.newRunReportRequest();
-        request.dimensions = [dimension];
-        request.metrics = [metrics];
-        request.dateRanges = dateRange;
-        request.orderBys = orderBy;
-
-        const response = AnalyticsData.Properties.runReport(
-            request,
-            "properties/" + propertyID
-        );
-
-        console.log({ response });
-    } catch (error) {
-        console.error(error);
-    }
 }
