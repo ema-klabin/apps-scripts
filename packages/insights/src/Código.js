@@ -1,4 +1,13 @@
-function instagram() {
+function runReports() {
+    instagramReport();
+    facebookReport();
+    newsletterReport();
+    googleAnalyticsReport();
+    downloadsReport();
+    // youtubeReport();
+}
+
+function instagramReport() {
     const metrics = [
         "impressions",
         // 'follower_count',
@@ -14,12 +23,12 @@ function instagram() {
         metrics,
         startDate,
         endDate,
-        sheetName: "Instagram",
+        sheetName: "[redes] Instagram",
         sheetID: CONFIG.ids.sheet(),
     });
 }
 
-function facebook() {
+function facebookReport() {
     const metrics = [
         "page_engaged_users",
         "page_post_engagements",
@@ -34,12 +43,12 @@ function facebook() {
         metrics,
         startDate,
         endDate,
-        sheetName: "Facebook",
+        sheetName: "[redes] Facebook",
         sheetID: CONFIG.ids.sheet(),
     });
 }
 
-function newsletter() {
+function newsletterReport() {
     const rest = new RestAPI({
         base: "api.egoiapp.com",
         headers: {
@@ -105,15 +114,24 @@ function newsletter() {
 
     transportaParaPlanilha({
         Insights: Campanhas,
-        sheetName: "Campanhas",
+        sheetName: "[e-goi] Campanhas",
         sheetID: CONFIG.ids.sheet(),
     });
+}
+
+function googleAnalyticsReport() {
+    analyticsAudienceReport();
+    analyticsEngagementReport();
+}
+
+function downloadsReport() {
+    downloads();
 }
 
 /**
  * Com problemas
  */
-function youtube() {
+function youtubeReport() {
     const metrics = [
         "views",
         "estimatedMinutesWatched",
@@ -131,82 +149,4 @@ function youtube() {
     });
 
     console.log(report);
-}
-
-function analytics() {
-    try {
-        const propertyID = "394335323";
-
-        const dimensions = analyticsDimensions("date");
-
-        const metricsDescription = [
-            [
-                "totalUsers",
-                "O número de usuários distintos que registraram pelo menos um evento, independentemente do site ou app estar em uso quando esse evento foi registrado.",
-            ],
-            [
-                "activeUsers",
-                "Número de usuários únicos que acessaram seu site ou app.",
-            ],
-            [
-                "newUsers",
-                "O número de usuários que interagiram com seu site ou acessaram seu app pela primeira vez (evento acionado: first_open ou first_visit).",
-            ],
-            [
-                "sessionsPerUser",
-                "Número médio de sessões por usuário (sessões divididas por usuários ativos).",
-            ],
-            [
-                "bounceRate",
-                "A porcentagem de sessões não engajadas ((menos sessões engajadas) dividida por sessões. Essa métrica é retornada como uma fração. Por exemplo, 0,2761 significa que 27,61% das sessões foram rejeições.",
-            ],
-            [
-                "engagedSessions",
-                "Quantas sessões duraram mais de 10 segundos, tiveram um evento de conversão ou duas ou mais exibições de tela.",
-            ],
-            [
-                "engagementRate",
-                "A porcentagem de sessões engajadas (sessões engajadas divididas por sessões). Essa métrica é retornada como uma fração. Por exemplo, 0,7239 significa que 72,39% das sessões foram engajadas.",
-            ],
-            [
-                "dauPerMau",
-                "Porcentagem contínua de usuários ativos por 30 dias que também são usuários ativos por 1 dia. Essa métrica é retornada como uma fração. Por exemplo, 0,113 significa que 11,3% dos usuários ativos em 30 dias também foram ativos por 1 dia.",
-            ],
-            [
-                "dauPerWau",
-                "Porcentagem contínua de usuários ativos por 7 dias que também são usuários ativos por 1 dia. Essa métrica é retornada como uma fração. Por exemplo, 0,082 significa que 8,2% dos usuários ativos em 7 dias também foram ativos por 1 dia.",
-            ],
-        ];
-
-        const metrics = analyticsMetrics(
-            ...metricsDescription.map((m) => m[0])
-        );
-
-        const dateRange = analyticsDateRange(startDate, endDate);
-
-        const orderBy = analyticsOrderBy(dimensions[0]);
-
-        const request = analyticsRequest({
-            dimensions,
-            metrics: [metrics],
-            dateRange,
-            orderBy,
-        });
-
-        // console.log({ dimensions, metrics, dateRange, orderBy, request });
-
-        const response = AnalyticsData.Properties.runReport(
-            request,
-            "properties/" + propertyID
-        );
-
-        for (const row of response.rows) {
-            console.log({
-                dimension: row.dimensionValues,
-                metrics: row.metricValues,
-            });
-        }
-    } catch (error) {
-        console.error(error);
-    }
 }

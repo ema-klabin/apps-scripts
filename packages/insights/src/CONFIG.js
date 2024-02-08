@@ -6,6 +6,8 @@ const CONFIG = {
             PropertiesService.getScriptProperties().getProperty(
                 "token_graphAPI"
             ),
+        wpdm: () =>
+            PropertiesService.getScriptProperties().getProperty("token_wpdm"),
     },
     ids: {
         sheet: () =>
@@ -16,9 +18,7 @@ const CONFIG = {
             PropertiesService.getScriptProperties().getProperty("id_insta"),
         youtube: () =>
             PropertiesService.getScriptProperties().getProperty("id_youtube"),
+        analytics: () =>
+            PropertiesService.getScriptProperties().getProperty("id_analytics"),
     },
-    // App: {
-    //     range: () =>
-    //         PropertiesService.getScriptProperties().getProperty("app_range"),
-    // },
 };

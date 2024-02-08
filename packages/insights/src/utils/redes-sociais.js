@@ -84,6 +84,7 @@ function pageInsights({ metrics, startDate, endDate, sheetName, sheetID }) {
     insights.map((linha, i) => {
         if (i === 0) {
             const cabecalho = linhaCabecalho(0, metrics.length, linha);
+
             Insights.push(["data", ...cabecalho]);
 
             const descricao = linhaDescricao(0, metrics.length, linha);
@@ -127,6 +128,14 @@ function pageInsights({ metrics, startDate, endDate, sheetName, sheetID }) {
 
     transportaParaPlanilha({ Insights, sheetName, sheetID });
 }
+
+function linkedinInsights({
+    metrics,
+    startDate,
+    endDate,
+    sheetName,
+    sheetID,
+}) {}
 
 function linhaValores(value, start, length, linha, index) {
     const rowValues = [];
