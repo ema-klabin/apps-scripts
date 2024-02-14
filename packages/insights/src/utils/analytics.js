@@ -117,10 +117,11 @@ function analytics({
                 row.dimensionValues[0].value,
                 ...row.metricValues.map((m, i) => {
                     if (percentValues.includes(met[i][0]))
-                        return (m.value * 100).toFixed(2);
+                        return parseFloat(
+                            (m.value * 100).toFixed(2).replace(".", ",")
+                        );
 
-                    if (met[i][0] === "sessionsPerUser")
-                        return (m.value * 1).toFixed(2);
+                    if (met[i][0] === "sessionsPerUser") return m.value * 1;
 
                     return m.value;
                 }),

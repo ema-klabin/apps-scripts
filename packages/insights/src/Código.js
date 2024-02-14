@@ -1,9 +1,9 @@
 function runReports() {
+    googleAnalyticsReport();
+    downloadsReport();
     instagramReport();
     facebookReport();
     newsletterReport();
-    googleAnalyticsReport();
-    downloadsReport();
     // youtubeReport();
 }
 
