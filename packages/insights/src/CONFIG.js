@@ -1,4 +1,8 @@
 const CONFIG = {
+    keys: {
+        trello: () =>
+            PropertiesService.getScriptProperties().getProperty("key_trello"),
+    },
     tokens: {
         egoi: () =>
             PropertiesService.getScriptProperties().getProperty("token_egoi"),
@@ -8,6 +12,8 @@ const CONFIG = {
             ),
         wpdm: () =>
             PropertiesService.getScriptProperties().getProperty("token_wpdm"),
+        trello: () =>
+            PropertiesService.getScriptProperties().getProperty("token_trello"),
     },
     ids: {
         sheet: () =>
