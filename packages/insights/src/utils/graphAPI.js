@@ -20,17 +20,6 @@ function getInsights(requests, token) {
     return response;
 }
 
-function loopFetch(Loop) {
-    const response = Loop.map((item) => {
-        return Utilities.jsonParse(
-            UrlFetchApp.fetch(item, {
-                method: "GET",
-            }).getContentText()
-        );
-    });
-    return response;
-}
-
 function formatRequests(requests, objectID, token) {
     const Requests = requests.map((request) => {
         let URL = `${GRAPHAPI.URL}/${objectID}/insights?access_token=${token}`;

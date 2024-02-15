@@ -4,5 +4,5 @@
         "**/.git": false
     },
     "editor.formatOnSave": true,
-    "cSpell.words": ["egoi", "wpdm"]
+    "cSpell.words": ["egoi", "trello", "wpdm"]
 }
